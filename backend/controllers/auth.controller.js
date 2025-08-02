@@ -12,7 +12,7 @@ export const signup = async (req, res, next) => {
         const userEmail = await User.findOne({email});
 
         if (userEmail) {
-            throw createHttpError(409, "User already exists with this email");
+            throw createHttpError(409, "User already exists. Please login instead.");
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
