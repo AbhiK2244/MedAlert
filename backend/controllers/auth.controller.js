@@ -1,0 +1,69 @@
+import { createResponse } from "../services/createResponse.service.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import createHttpError from "http-errors";
+
+
+export const signup = async (req, res, next) => {
+    try {
+        const {name, email, password} = req.body;
+
+        const userEmail = await User.findOne({email});
+
+        if (userEmail) {
+            throw createHttpError(409, "User already exists with this email");
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword
+        });
+        await newUser.save();
+        res.send(createResponse(newUser, "User created successfully"));
+    } catch (error) {
+        next(error);
+    }
+
+};
+export const signin = async (req, res, next) => {
+    try {
+        const {email, password} = req.body;
+
+        const user = await User.findOne({email});
+        if (!user) {
+            throw createHttpError(404, "User not found");
+        }
+
+        const hash = user.password;
+        const isMatch = await bcrypt.compare(password, hash);
+       if (!isMatch) {
+           throw createHttpError(401, "Invalid password");
+       }
+
+       const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+       res.cookie("accessToken", accessToken, {
+              httpOnly: true,
+              secure: true,
+              sameSite: false,
+       })
+       res.send(createResponse({ accessToken, user }, "User signed in successfully"));
+   } catch (error) {
+       next(error);
+   }
+}
+
+// export const logout = (req, res) => {
+//   res.cookie("accessToken", "").send(createResponse({}, "User logged out successfully"));
+// };
+
+export const logout = (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: false,
+  });
+  return res.send(createResponse({}, "User logged out successfully"));
+};
