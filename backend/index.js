@@ -1,0 +1,33 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import connectDB from './services/database.service.js';
+import authRoutes from './routes/auth.route.js';
+import errorHandler from './middleware/errorHandler.middleware.js';
+
+
+dotenv.config();
+const app = express();
+connectDB();
+ 
+
+const PORT = process.env.PORT || 4000;
+
+app.use(bodyParser.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cookieParser());
+
+// Routes
+app.use('/api/user', authRoutes); 
+// Error handling middleware
+app.use(errorHandler);
+
+app.get('/', (req, res) => {
+  res.json({status: 'success', message: 'Hello, MedAlert!' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
