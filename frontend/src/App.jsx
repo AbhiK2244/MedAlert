@@ -7,6 +7,8 @@ import LandingPage from './pages/Landing Page'
 import NotFound from './pages/Not Found'
 import LandingPageLayout from './layouts/LandingPageLayout'
 import Auth from './pages/Auth'
+import AboutUs from './pages/About Us/AboutUs'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,6 +18,7 @@ function App() {
       <Route element={<LandingPageLayout />}> 
         <Route path='/' element={<LandingPage />} />  
       </Route>
+       <Route path="/about" element={<AboutUs />} />
 
       <Route path='/auth' element={<Auth />} />
       <Route path='*' element={<NotFound />} />
