@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 
 const LandingPageLayout = () => {
   return (
-    <div className="px-14 flex flex-col min-h-screen w-full">
+    <div className="px-14 flex flex-col min-h-screen w-full bg-primary text-white">
       <Header />
       <main className="flex-grow">
         <Outlet />
