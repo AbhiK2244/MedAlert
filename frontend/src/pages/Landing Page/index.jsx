@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import pikachu from "/images/pikachu.png";
 import cover from "/images/cover2.png";
+import { FaBrain, FaCamera } from "react-icons/fa";
+import { IoSave } from "react-icons/io5";
+
+
 
 const LandingPage = () => {
   return (
@@ -34,14 +38,33 @@ const LandingPage = () => {
       </div>
 
       <div className="w-full px-16 py-8 mt-6">
-          <h1 className="text-5xl font-bold">How it works.</h1>
-
-          <p className="mt-6 mb-16 text-lg font-thin mr-12">
-            Scan nutrition labels and get health insights, safe consumption
-            advice, and downloadable diet reports powered by AI.
-          </p>
-
-        
+        <h1 className="text-5xl font-bold">How it works.</h1>
+        <div className="grid grid-cols-3 gap-8 mt-12">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl text-primary font-semibold flex items-center gap-2">
+              <FaCamera /> Scan
+            </h2>
+            <p className="mt-2 text-primary font-semibold">
+              Use your camera to scan nutrition labels of food products.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl text-primary font-semibold flex items-center gap-2">
+              <FaBrain /> Analyze
+            </h2>
+            <p className="mt-2 text-primary font-semibold">
+              Get detailed health insights and safe consumption advice.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl text-primary font-semibold flex items-center gap-2">
+              <IoSave /> Download
+            </h2>
+            <p className="mt-2 text-primary font-semibold">
+              Save your diet reports for future reference and tracking.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
