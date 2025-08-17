@@ -46,8 +46,8 @@ export const signin = async (req, res, next) => {
        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
        res.cookie("accessToken", accessToken, {
               httpOnly: true,
-              secure: true,
-              sameSite: false,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "none", // Use 'none' for cross-site cookies
        })
        res.send(createResponse({ accessToken, user }, "User signed in successfully"));
    } catch (error) {
