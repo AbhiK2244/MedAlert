@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast";
 import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 
-
 const AuthForm = () => {
   const [authMode, setAuthMode] = useState("login");
   const navigate = useNavigate();
@@ -27,16 +26,20 @@ const AuthForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     console.log("Form submitted:", data);
     try {
       if (authMode === "login") {
         const result = await login(data);
         console.log("Login:", result);
         if (result?.error) {
-          toast.error(result?.error.data.message || "Login failed. Please try again.");
+          toast.error(
+            result?.error.data.message || "Login failed. Please try again."
+          );
         } else {
           toast.success("Login successful!");
+          // Reset form after successful submission
+          reset();
           // Redirect to the dashboard or home page after successful login
           navigate("/dashboard");
         }
@@ -44,13 +47,15 @@ const AuthForm = () => {
         const res = await signup(data);
         console.log("Signup:", res);
         if (res?.error) {
-          toast.error(res?.error.data.message || "Signup failed. Please try again.");
+          toast.error(
+            res?.error.data.message || "Signup failed. Please try again."
+          );
         } else {
           toast.success("Signup successful! Please log in.");
+          // Reset form after successful submission
+          reset();
         }
       }
-      // Reset form after successful submission
-      reset();
     } catch (error) {
       console.error("Error during authentication:", error);
     }
@@ -58,12 +63,12 @@ const AuthForm = () => {
 
   const toggleAuthMode = () => {
     setAuthMode((prevMode) => (prevMode === "login" ? "signup" : "login"));
-    
+
     // Reset the form values when toggling auth mode
     // This ensures that the form fields are cleared when switching between login and signup
     reset({}, { keepValues: true });
     // Unregister the name field when switching to login mode
-      unregister("name");
+    unregister("name");
   };
 
   return (
@@ -116,7 +121,11 @@ const AuthForm = () => {
           <button
             type="submit"
             disabled={isLoginLoading}
-            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center ${isLoginLoading ? "bg-neutral-400 cursor-not-allowed" : "bg-primary text-white hover:bg-primary-hover"}`}
+            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center ${
+              isLoginLoading
+                ? "bg-neutral-400 cursor-not-allowed"
+                : "bg-primary text-white hover:bg-primary-hover"
+            }`}
           >
             {isLoginLoading ? <Spinner /> : "Sign In"}
           </button>
@@ -124,7 +133,11 @@ const AuthForm = () => {
           <button
             type="submit"
             disabled={isSignupLoading}
-            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center ${isSignupLoading ? "bg-neutral-400 cursor-not-allowed" : "bg-primary text-white hover:bg-primary-hover"}`}
+            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center ${
+              isSignupLoading
+                ? "bg-neutral-400 cursor-not-allowed"
+                : "bg-primary text-white hover:bg-primary-hover"
+            }`}
           >
             {isSignupLoading ? <Spinner /> : "Sign Up"}
           </button>

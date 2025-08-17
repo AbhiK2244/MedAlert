@@ -28,7 +28,7 @@ const Header = () => {
 
         <div className='flex items-center gap-8'>
             <Link to="/" className='text-lg hover:underline'>HOME</Link>
-            <Link to="/" className='text-lg hover:underline'>ABOUT US</Link>
+            <Link to="/about" className='text-lg hover:underline'>ABOUT US</Link>
             <Link to="/" className='text-lg hover:underline'>CONTACT US</Link>
         </div>
         <div className='flex items-center gap-4 h-full'>
