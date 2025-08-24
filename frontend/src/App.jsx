@@ -9,6 +9,7 @@ import LandingPageLayout from "./layouts/LandingPageLayout";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AboutUs from "./pages/About Us/AboutUs";
+import UserProfile from "./pages/User Profile";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
+
+      <Route path="/signup/profile" element={<UserProfile />} />
 
       <Route path="/about" element={<AboutUs />} />
 
