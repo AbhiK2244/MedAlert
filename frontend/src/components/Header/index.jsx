@@ -29,7 +29,7 @@ const Header = () => {
         <div className='flex items-center gap-8'>
             <Link to="/" className='text-lg hover:underline'>HOME</Link>
             <Link to="/about" className='text-lg hover:underline'>ABOUT US</Link>
-            <Link to="/" className='text-lg hover:underline'>CONTACT US</Link>
+            <Link to="/contact" className='text-lg hover:underline'>CONTACT US</Link>
         </div>
         <div className='flex items-center gap-4 h-full'>
             <Link to="/auth" className='text-white bg-[#4F6FFE] text-xl px-4 py-2 rounded-full font-semibold'>LOGIN</Link>
