@@ -5,37 +5,38 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateProfileMutation } from "../../services/healthProfile.js";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner.jsx";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
-
-
-  const [createProfile, { isLoading: isCreateProfileLoading }] = useCreateProfileMutation();
+  const navigate = useNavigate();
+  const [createProfile, { isLoading: isCreateProfileLoading }] =
+    useCreateProfileMutation();
 
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-      unregister,
-    } = useForm({
-      resolver: yupResolver(userProfileSchema),
-    });
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    unregister,
+  } = useForm({
+    resolver: yupResolver(userProfileSchema),
+  });
 
-   const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
     console.log("Form submitted:", data);
     try {
-      
-        const res = await createProfile(data);
-        console.log("Create Profile:", res);
-        if (res?.error) {
-          toast.error(
-            res?.error.data.message || "Create Profile failed. Please try again."
-          );
-        } else {
-          toast.success("Health Profile created successfully!");
-          // Reset form after successful submission
-          reset();
-        }
+      const res = await createProfile(data);
+      console.log("Create Profile:", res);
+      if (res?.error) {
+        toast.error(
+          res?.error.data.message || "Create Profile failed. Please try again."
+        );
+      } else {
+        toast.success("Health Profile created successfully!");
+        // Reset form after successful submission
+        reset();
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Error during authentication:", error);
     }
@@ -65,11 +66,11 @@ const UserProfile = () => {
                   type="text"
                   id="fullName"
                 />
-                  {errors?.fullName && (
-                    <p className="text-xs text-red-500">
-                      {errors?.fullName.message}
-                    </p>
-                  )}
+                {errors?.fullName && (
+                  <p className="text-xs text-red-500">
+                    {errors?.fullName.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -83,9 +84,7 @@ const UserProfile = () => {
                   id="age"
                 />
                 {errors?.age && (
-                  <p className="text-xs text-red-500">
-                    {errors?.age.message}
-                  </p>
+                  <p className="text-xs text-red-500">{errors?.age.message}</p>
                 )}
               </div>
 
@@ -127,9 +126,7 @@ const UserProfile = () => {
                   id="phone"
                 />
                 {errors?.phone && (
-                  <p className="text-xs text-red-500">
-                    {errors.phone.message}
-                  </p>
+                  <p className="text-xs text-red-500">{errors.phone.message}</p>
                 )}
               </div>
             </div>
@@ -174,11 +171,11 @@ const UserProfile = () => {
                   step={0.1}
                   id="height"
                 />
-                  {errors?.height && (
-                    <p className="text-xs text-red-500">
-                      {errors.height.message}
-                    </p>
-                  )}
+                {errors?.height && (
+                  <p className="text-xs text-red-500">
+                    {errors.height.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -231,7 +228,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-        {/* Allergies and Medical Conditions */}
+          {/* Allergies and Medical Conditions */}
           <h2 className="text-xl font-semibold mb-2">Other Details</h2>
           <div className="w-full bg-blue-50 px-4 pt-6 pb-8 rounded-lg">
             <div className="w-full px-2 flex flex-col gap-4">
@@ -240,7 +237,8 @@ const UserProfile = () => {
                   className="block text-sm font-medium mb-2"
                   htmlFor="Allergies"
                 >
-                  Allergies <span className="italic font-light text-xs">(if any)</span>
+                  Allergies{" "}
+                  <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <input
                   {...register("allergies")}
@@ -255,7 +253,8 @@ const UserProfile = () => {
                   className="block text-sm font-medium mb-2"
                   htmlFor="medications"
                 >
-                  Medications <span className="italic font-light text-xs">(if any)</span>
+                  Medications{" "}
+                  <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <textarea
                   {...register("medications")}
@@ -271,7 +270,8 @@ const UserProfile = () => {
                   className="block text-sm font-medium mb-2"
                   htmlFor="additionalConditions"
                 >
-                  Additional Conditions <span className="italic font-light text-xs">(if any)</span>
+                  Additional Conditions{" "}
+                  <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <textarea
                   {...register("additionalDetails")}
@@ -284,11 +284,14 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <button disabled={isCreateProfileLoading} className={`mt-4 w-full text-lg bg-primary text-white rounded px-4 py-2 hover:bg-primary-hover transition-all duration-300 cursor-pointer
-            ${isCreateProfileLoading
-                ? "bg-neutral-400 cursor-not-allowed"
-                : "bg-primary text-white hover:bg-primary-hover"
-            }`}>
+          <button
+            disabled={isCreateProfileLoading}
+            className={`mt-4 w-full flex justify-center items-center text-lg bg-primary text-white rounded px-4 py-2 hover:bg-primary-hover transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-400
+            ${
+              !isCreateProfileLoading &&
+              "bg-primary text-white hover:bg-primary-hover"
+            }`}
+          >
             {isCreateProfileLoading ? <Spinner /> : "Submit Profile"}
           </button>
         </form>

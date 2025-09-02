@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 export default function (req, res, next) {
-  console.log("Auth middleware triggered");
   const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ message: "No token" });
+  if (!header) return res.status(401).json({ message: "Unauthorized: No token provided" });
 
   const token = header.split(" ")[1];
   try {

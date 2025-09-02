@@ -55,9 +55,11 @@ const AuthForm = () => {
             res?.error.data.message || "Signup failed. Please try again."
           );
         } else {
-          toast.success("Signup successful! Please log in.");
+          dispatch(loginDispatcher(res?.data?.data)); // Dispatch login action to Redux store because user is logged in after signup
+          toast.success("User created and logged in successfully.");
           // Reset form after successful submission
           reset();
+          navigate("/signup/profile");
         }
       }
     } catch (error) {
@@ -137,10 +139,9 @@ const AuthForm = () => {
           <button
             type="submit"
             disabled={isSignupLoading}
-            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center ${
-              isSignupLoading
-                ? "bg-neutral-400 cursor-not-allowed"
-                : "bg-primary text-white hover:bg-primary-hover"
+            className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center disabled:bg-neutral-400 disabled:cursor-not-allowed ${
+              !isSignupLoading
+                && "bg-primary text-white hover:bg-primary-hover"
             }`}
           >
             {isSignupLoading ? <Spinner /> : "Sign Up"}

@@ -7,7 +7,7 @@ const healthProfileSchema = new mongoose.Schema({
   fullName: { type: String },
   age: { type: Number, required: true },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
-  phoneNumber: { type: String, required: true },
+  phone: { type: String, required: true },
 
   // Current health
   height: { type: Number, required: true },
