@@ -9,6 +9,7 @@ import LandingPageLayout from "./layouts/LandingPageLayout";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AboutUs from "./pages/About Us/AboutUs";
+import ContactUs from "./pages/contact us/ContactUs";
 import UserProfile from "./pages/User Profile";
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
       <Route path="/signup/profile" element={<UserProfile />} />
 
       <Route path="/about" element={<AboutUs />} />
+
+        <Route path="/contact" element={<ContactUs />} />
 
       <Route path="/auth" element={<Auth />} />
       <Route path="*" element={<NotFound />} />
