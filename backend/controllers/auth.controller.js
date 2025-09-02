@@ -48,8 +48,13 @@ export const signin = async (req, res, next) => {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production",
               sameSite: "none", // Use 'none' for cross-site cookies
-       })
-       res.send(createResponse({ accessToken, user }, "User signed in successfully"));
+              maxAge: 24 * 60 * 60 * 1000, // 1 day
+       });
+
+         // Exclude password from the user object before sending the response
+
+       const {password: _, ...dataToReturn} = user._doc;
+       res.send(createResponse({ accessToken, user: dataToReturn }, "User signed in successfully"));
    } catch (error) {
        next(error);
    }

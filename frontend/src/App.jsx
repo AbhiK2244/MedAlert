@@ -21,12 +21,12 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about" element={<AboutUs />} />
 
       <Route path="/signup/profile" element={<UserProfile />} />
 
-      <Route path="/about" element={<AboutUs />} />
 
-        <Route path="/contact" element={<ContactUs />} />
 
       <Route path="/auth" element={<Auth />} />
       <Route path="*" element={<NotFound />} />

@@ -6,10 +6,13 @@ import { useLoginMutation, useSignupMutation } from "../../../../services/auth";
 import { toast } from "react-hot-toast";
 import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login as loginDispatcher } from "../../../../redux/reducers/auth.reducer";
 
 const AuthForm = () => {
   const [authMode, setAuthMode] = useState("login");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [signup, { isLoading: isSignupLoading }] = useSignupMutation();
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
@@ -37,6 +40,7 @@ const AuthForm = () => {
             result?.error.data.message || "Login failed. Please try again."
           );
         } else {
+          dispatch(loginDispatcher(result?.data?.data)); // Dispatch login action to Redux store
           toast.success("Login successful!");
           // Reset form after successful submission
           reset();
