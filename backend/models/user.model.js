@@ -13,7 +13,9 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        required: true,
     },
+    healthProfiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "HealthProfile" }],
 },
     { timestamps: true }
 );

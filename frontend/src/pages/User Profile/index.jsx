@@ -1,13 +1,53 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { userProfileSchema } from "./Schema/userProfile.js";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useCreateProfileMutation } from "../../services/healthProfile.js";
+import toast from "react-hot-toast";
+import Spinner from "../../components/Spinner.jsx";
 
 const UserProfile = () => {
+
+
+  const [createProfile, { isLoading: isCreateProfileLoading }] = useCreateProfileMutation();
+
+  const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+      unregister,
+    } = useForm({
+      resolver: yupResolver(userProfileSchema),
+    });
+
+   const onSubmit = async (data) => {
+    console.log("Form submitted:", data);
+    try {
+      
+        const res = await createProfile(data);
+        console.log("Create Profile:", res);
+        if (res?.error) {
+          toast.error(
+            res?.error.data.message || "Create Profile failed. Please try again."
+          );
+        } else {
+          toast.success("Health Profile created successfully!");
+          // Reset form after successful submission
+          reset();
+        }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 transition-all duration-300">
       <h1 className="text-3xl font-bold mb-4 text-primary">
         Complete Your Profile
       </h1>
       <div className="w-full px-6">
-        <form className="space-y-6 w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
           {/* personal details */}
           <h2 className="text-xl font-semibold mb-2">Personal Details</h2>
           <div className="w-full bg-blue-50 px-4 pt-6 pb-8 rounded-lg">
@@ -20,13 +60,16 @@ const UserProfile = () => {
                   Full Name
                 </label>
                 <input
+                  {...register("fullName")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="text"
                   id="fullName"
                 />
-                {/* <p className="text-xs text-gray-500">
-                  Please enter your full name.
-                </p> */}
+                  {errors?.fullName && (
+                    <p className="text-xs text-red-500">
+                      {errors?.fullName.message}
+                    </p>
+                  )}
               </div>
 
               <div>
@@ -34,11 +77,16 @@ const UserProfile = () => {
                   Age
                 </label>
                 <input
+                  {...register("age")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="number"
                   id="age"
                 />
-                {/* <p className="text-xs text-gray-500">Please enter your age.</p> */}
+                {errors?.age && (
+                  <p className="text-xs text-red-500">
+                    {errors?.age.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -49,17 +97,20 @@ const UserProfile = () => {
                   Gender
                 </label>
                 <select
+                  {...register("gender")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white cursor-pointer"
                   id="gender"
                 >
                   <option value="">Select your gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
-                {/* <p className="text-xs text-gray-500">
-                  Please select your gender.
-                </p> */}
+                {errors?.gender && (
+                  <p className="text-xs text-red-500">
+                    {errors.gender.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -70,13 +121,16 @@ const UserProfile = () => {
                   Phone Number
                 </label>
                 <input
+                  {...register("phone")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="tel"
                   id="phone"
                 />
-                {/* <p className="text-xs text-gray-500">
-                  Please enter your phone number.
-                </p> */}
+                {errors?.phone && (
+                  <p className="text-xs text-red-500">
+                    {errors.phone.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -93,14 +147,17 @@ const UserProfile = () => {
                   Weight <span className="italic font-light text-xs">(kg)</span>
                 </label>
                 <input
+                  {...register("weight")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="number"
                   step={0.1}
                   id="weight"
                 />
-                {/* <p className="text-xs text-gray-500">
-                  Please enter your weight.
-                </p> */}
+                {errors?.weight && (
+                  <p className="text-xs text-red-500">
+                    {errors.weight.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -111,14 +168,17 @@ const UserProfile = () => {
                   Height <span className="italic font-light text-xs">(cm)</span>
                 </label>
                 <input
+                  {...register("height")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="number"
                   step={0.1}
                   id="height"
                 />
-                {/* <p className="text-xs text-gray-500">
-                  Please enter your height.
-                </p> */}
+                  {errors?.height && (
+                    <p className="text-xs text-red-500">
+                      {errors.height.message}
+                    </p>
+                  )}
               </div>
 
               <div>
@@ -129,17 +189,20 @@ const UserProfile = () => {
                   Blood Pressure Level
                 </label>
                 <select
+                  {...register("bpLevel")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white cursor-pointer"
                   id="bplevel"
                 >
                   <option value="">Select your blood pressure level</option>
-                  <option value="normal">Normal</option>
-                  <option value="high">High</option>
-                  <option value="low">Low</option>
+                  <option value="Normal">Normal</option>
+                  <option value="High">High</option>
+                  <option value="Low">Low</option>
                 </select>
-                {/* <p className="text-xs text-gray-500">
-                  Please select your blood pressure level.
-                </p> */}
+                {errors?.bpLevel && (
+                  <p className="text-xs text-red-500">
+                    {errors.bpLevel.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -150,17 +213,20 @@ const UserProfile = () => {
                   Sugar Level
                 </label>
                 <select
+                  {...register("sugarLevel")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white cursor-pointer"
                   id="sugarlevel"
                 >
                   <option value="">Select your sugar level</option>
-                  <option value="normal">Normal</option>
-                  <option value="high">High</option>
-                  <option value="low">Low</option>
+                  <option value="Normal">Normal</option>
+                  <option value="High">High</option>
+                  <option value="Low">Low</option>
                 </select>
-                {/* <p className="text-xs text-gray-500">
-                  Please select your blood sugar level.
-                </p> */}
+                {errors?.sugarLevel && (
+                  <p className="text-xs text-red-500">
+                    {errors.sugarLevel.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -177,6 +243,7 @@ const UserProfile = () => {
                   Allergies <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <input
+                  {...register("allergies")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-full px-4 py-1 focus:shadow-primary focus:shadow-xs transition-all duration-400 bg-neutral-50 focus:bg-white"
                   type="text"
                   id="Allergies"
@@ -191,6 +258,7 @@ const UserProfile = () => {
                   Medications <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <textarea
+                  {...register("medications")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-2xl px-4 py-1 focus:shadow-primary focus:shadow-sm transition-all duration-400 bg-neutral-50 focus:bg-white placeholder:italic placeholder:text-gray-400"
                   id="medications"
                   rows="3"
@@ -206,6 +274,7 @@ const UserProfile = () => {
                   Additional Conditions <span className="italic font-light text-xs">(if any)</span>
                 </label>
                 <textarea
+                  {...register("additionalDetails")}
                   className="w-full outline-none border border-neutral-400 focus:border-neutral-200 rounded-2xl px-4 py-1 focus:shadow-primary focus:shadow-sm transition-all duration-400 bg-neutral-50 focus:bg-white placeholder:italic placeholder:text-gray-400"
                   id="additionalConditions"
                   rows="3"
@@ -215,8 +284,12 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <button className="mt-4 w-full text-lg bg-primary text-white rounded px-4 py-2 hover:bg-primary-hover transition-all duration-300 cursor-pointer">
-            Submit
+          <button disabled={isCreateProfileLoading} className={`mt-4 w-full text-lg bg-primary text-white rounded px-4 py-2 hover:bg-primary-hover transition-all duration-300 cursor-pointer
+            ${isCreateProfileLoading
+                ? "bg-neutral-400 cursor-not-allowed"
+                : "bg-primary text-white hover:bg-primary-hover"
+            }`}>
+            {isCreateProfileLoading ? <Spinner /> : "Submit Profile"}
           </button>
         </form>
       </div>

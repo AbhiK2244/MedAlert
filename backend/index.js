@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import connectDB from './services/database.service.js';
 import authRoutes from './routes/auth.route.js';
+import healthProfileRoutes from './routes/healthProfile.route.js';
 import errorHandler from './middleware/errorHandler.middleware.js';
 import cors from 'cors';
 
@@ -23,14 +24,15 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
 }));
-
+ 
 // Routes
 app.use('/api/user', authRoutes); 
+app.use('/api/health-profiles', healthProfileRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
 app.get('/', (req, res) => {
-  res.json({status: 'success', message: 'Hello, MedAlert!' });
+  res.json({status: 'success', message: 'Backend is running!' });
 });
 
 app.listen(PORT, () => {
