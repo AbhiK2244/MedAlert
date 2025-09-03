@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-primary: #4F6FFE;
   --color-primary-hover: #1D3DDC;
   --color-primary-light: #8094FF;
+
+  --animate-loading: loading 3s ease-in-out infinite;
+  
+  @keyframes loading {
+    0% {
+      transform: translateX(0%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
 }
