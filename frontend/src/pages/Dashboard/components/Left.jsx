@@ -44,9 +44,9 @@ const Left = () => {
     },
   ];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full border-r border-neutral-200">
       {/* Profile Card */}
-      <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col justify-between">
+      <div className="p-6 flex flex-col justify-between">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-2xl font-bold text-[#8451C1] shadow">
             SJ
@@ -79,7 +79,7 @@ const Left = () => {
         </div>
       </div>
       {/* Daily Goals */}
-      <div className="bg-white rounded-2xl shadow-xl p-6">
+      <div className="p-6">
         <h3 className="font-semibold mb-4 text-gray-800">
           Daily Wellness Goals
         </h3>
