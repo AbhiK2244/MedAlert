@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './services/database.service.js';
 import authRoutes from './routes/auth.route.js';
 import healthProfileRoutes from './routes/healthProfile.route.js';
+import analysisReportRoutes from './routes/analysisReport.route.js';
 import errorHandler from './middleware/errorHandler.middleware.js';
 import cors from 'cors';
 
@@ -28,6 +29,8 @@ app.use(cors({
 // Routes
 app.use('/api/user', authRoutes); 
 app.use('/api/health-profiles', healthProfileRoutes);
+app.use('/api/analysis-reports', analysisReportRoutes);
+
 // Error handling middleware
 app.use(errorHandler);
 

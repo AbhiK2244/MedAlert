@@ -45,7 +45,7 @@ const AuthForm = () => {
           // Reset form after successful submission
           reset();
           // Redirect to the dashboard or home page after successful login
-          navigate("/dashboard");
+          navigate("/scan");
         }
       } else {
         const res = await signup(data);
