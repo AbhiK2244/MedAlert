@@ -16,9 +16,8 @@ const Right = () => {
   const [userNotes, setUserNotes] = useState("");
   const [isNoteOpen, setIsNoteOpen] = useState(false);
 
-  const [analysisReport, {isLoading: isReportLoading}] = useAnalysisReportMutation();
-
-  
+  const [analysisReport, { isLoading: isReportLoading }] =
+    useAnalysisReportMutation();
 
   const performOcrRequest = async (formData) => {
     const backendUrl = "https://medalert-backend-ae9o.onrender.com/ocr";
@@ -43,10 +42,13 @@ const Right = () => {
 
     try {
       const response = await performOcrRequest(formData);
-      console.log("Ocr result: ", response);
-      setOcrResults(response.data);
+      console.log("Result from ocr: ", response);
+    //   setOcrResults(response.data);
+        return response?.data;
     } catch (error) {
-        toast.error("Error in extracting the text. Please upload the clear image!")
+      toast.error(
+        "Error in extracting the text. Please upload the clear image!"
+      );
       if (error.response && error.response.status === 503) {
         console.log(
           "Server is waking up (503 error). Retrying in 10 seconds..."
@@ -78,16 +80,16 @@ const Right = () => {
     //   return;
     // }
 
-    const reportData = {
-      userNotes,
-      ocrResult: ocrResults,
-    };
-
+    
     try {
-        await handleScan();
+        const result = await handleScan();
+        const reportData = {
+          userNotes,
+          ocrResult: result,
+        };
+        console.log("report data", reportData);
       const response = await analysisReport(reportData);
       console.log("Report generated successfully:", response);
-      
     } catch (error) {
       console.error("Error generating report:", error);
       alert("Failed to generate report. Please try again.");
@@ -154,27 +156,41 @@ const Right = () => {
             </button>
           </div>
           <div className="flex justify-end w-full px-4 mt-1">
-            <button className="text-sm font-medium cursor-pointer transition duration-300" onClick={() => setIsNoteOpen(!isNoteOpen)}>{isNoteOpen ? <span className="text-red-600 hover:text-red-500">Hide notes</span> : <span className="text-primary-hover hover:text-primary">Add notes</span>}</button>
+            <button
+              className="text-sm font-medium cursor-pointer transition duration-300"
+              onClick={() => setIsNoteOpen(!isNoteOpen)}
+            >
+              {isNoteOpen ? (
+                <span className="text-red-600 hover:text-red-500">
+                  Hide notes
+                </span>
+              ) : (
+                <span className="text-primary-hover hover:text-primary">
+                  Add notes
+                </span>
+              )}
+            </button>
           </div>
-          {
-            isNoteOpen && (
-              <div className="mt-2">
-                <textarea
-                  className="w-full border border-gray-300 rounded-md p-2 outline-none focus:border-primary transition duration-300"
-                  rows="3"
-                  placeholder="Add your note here..."
-                  value={userNotes}
-                  onChange={(e) => setUserNotes(e.target.value)}
-                />
-              </div>
-            )}
+          {isNoteOpen && (
+            <div className="mt-2">
+              <textarea
+                className="w-full border border-gray-300 rounded-md p-2 outline-none focus:border-primary transition duration-300"
+                rows="3"
+                placeholder="Add your note here..."
+                value={userNotes}
+                onChange={(e) => setUserNotes(e.target.value)}
+              />
+            </div>
+          )}
         </div>
         <button
           onClick={handleGenerateReport}
           disabled={isLoading || isReportLoading}
           className="border border-gray-200 py-3 rounded-xl shadow hover:bg-primary hover:text-white cursor-pointer transition text-gray-700 font-medium"
         >
-          {isLoading || isReportLoading ? "Generating Report..." : "Generate Report"}
+          {isLoading || isReportLoading
+            ? "Generating Report..."
+            : "Generate Report"}
         </button>
       </div>
       <div className="flex flex-col gap-4">

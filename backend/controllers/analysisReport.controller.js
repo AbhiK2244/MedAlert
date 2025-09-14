@@ -16,7 +16,7 @@ export const generateAnalysisReport = async (req, res, next) => {
     console.log("Received analysis report request:", req.body); 
     const { ocrResult, userNotes } = req.body;
     if (!ocrResult?.ingredients?.length) {
-      throw createHttpError(400, "OCR result with ingredients is required");
+      throw createHttpError(400, "Please provide the clear image with ingredients.");
     }
 
     // get latest health profile snapshot

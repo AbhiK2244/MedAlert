@@ -35,7 +35,8 @@ ${userNotes || "N/A"}
 
 HEALTH PROFILE:
 ${JSON.stringify(healthSnapshot ?? {}, null, 2)}
-Make sure you are suggesting the result with reference to the health profile of user and in summary mention a little about their health profile.
+Make sure you are suggesting the personalized result with reference to the health profile of user and in summary mention a little about their health profile in personalized manner. 
+Most important: Do not miss summary in the response.
 `;
 
   try {
@@ -88,6 +89,8 @@ Make sure you are suggesting the result with reference to the health profile of 
         _raw_model_output: rawText ?? "[no text returned]",
       };
     }
+
+    console.log("parsed result:", parsed)
 
     return {
       ...parsed,
