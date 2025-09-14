@@ -11,16 +11,21 @@ import Dashboard from "./pages/Dashboard";
 import AboutUs from "./pages/About Us/AboutUs";
 import ContactUs from "./pages/contact us/ContactUs";
 import UserProfile from "./pages/User Profile";
+import DashboardLayout from "./layouts/DashboardLayout";
+import MyAccount from "./pages/My Account";
+import Reports from "./pages/Reports";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Routes>
       <Route element={<LandingPageLayout />}>
         <Route path="/" element={<LandingPage />} />
       </Route>
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route element={<DashboardLayout />}>
+        <Route path="/scan" element={<Dashboard />} />
+        <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/reports" element={<Reports />} />
+      </Route>
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/about" element={<AboutUs />} />
 

@@ -35,7 +35,7 @@ const UserProfile = () => {
         toast.success("Health Profile created successfully!");
         // Reset form after successful submission
         reset();
-        navigate("/dashboard");
+        navigate("/scan");
       }
     } catch (error) {
       console.error("Error during authentication:", error);

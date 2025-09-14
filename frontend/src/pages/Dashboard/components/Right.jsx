@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useAnalysisReportMutation } from "../../../services/analysisReport";
 
-const Right = () => {
+const Dashboard = () => {
   const galleryInputRef = useRef(null);
   const cameraInputRef = useRef(null);
   const filesRef = useRef([]);
@@ -237,4 +237,4 @@ const Right = () => {
   );
 };
 
-export default Right;
+export default Dashboard;
