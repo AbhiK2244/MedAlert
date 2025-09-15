@@ -42,10 +42,10 @@ const ProfileCard = ({ location, setIsOpen }) => {
     <div className="flex flex-col justify-between">
       <div className="px-4 md:pt-4 flex items-center gap-4">
         <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-2xl font-bold text-[#8451C1] shadow">
-          {user?.name[0]}
+          {user?.name?.charAt(0) || "U"}
         </div>
         <div>
-          <h2 className="text-xl font-semibold text-gray-800">{user?.name}</h2>
+          <h2 className="text-xl font-semibold text-gray-800">{user?.name || "User"}</h2>
           <p className="text-sm text-gray-500">{user?.email}</p>
           <button
             onClick={handleLogout}

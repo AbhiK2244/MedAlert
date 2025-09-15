@@ -5,6 +5,7 @@ import { IoIosClose } from "react-icons/io";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useAnalysisReportMutation } from "../../services/analysisReport";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const galleryInputRef = useRef(null);
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userNotes, setUserNotes] = useState("");
   const [isNoteOpen, setIsNoteOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [analysisReport, { isLoading: isReportLoading }] =
     useAnalysisReportMutation();
@@ -43,8 +45,8 @@ const Dashboard = () => {
     try {
       const response = await performOcrRequest(formData);
       console.log("Result from ocr: ", response);
-    //   setOcrResults(response.data);
-        return response?.data;
+      //   setOcrResults(response.data);
+      return response?.data;
     } catch (error) {
       toast.error(
         "Error in extracting the text. Please upload the clear image!"
@@ -80,16 +82,19 @@ const Dashboard = () => {
     //   return;
     // }
 
-    
     try {
-        const result = await handleScan();
-        const reportData = {
-          userNotes,
-          ocrResult: result,
-        };
-        console.log("report data", reportData);
+      const result = await handleScan();
+      const reportData = {
+        userNotes,
+        ocrResult: result,
+      };
+      console.log("report data", reportData);
       const response = await analysisReport(reportData);
-      console.log("Report generated successfully:", response);
+      console.log("Report generated successfully:", response.data.data);
+      toast.success("Report generated successfully.");
+      const id = response?.data?.data?._id;
+      console.log("id of the report is: ", id);
+      navigate(`/report/${id}`);
     } catch (error) {
       console.error("Error generating report:", error);
       alert("Failed to generate report. Please try again.");
@@ -121,7 +126,9 @@ const Dashboard = () => {
   };
   return (
     <div className="p-6 flex flex-col">
-      <h3 className="font-semibold mb-4 text-gray-800 ml-4 text-xl">Quick Actions</h3>
+      <h3 className="font-semibold mb-4 text-gray-800 ml-4 text-xl">
+        Quick Actions
+      </h3>
       <div className="grid gap-3">
         <div>
           <input
@@ -238,31 +245,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useRef, useState } from "react";
 // import { HiOutlineUpload } from "react-icons/hi";

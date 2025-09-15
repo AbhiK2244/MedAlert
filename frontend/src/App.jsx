@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/Landing Page";
@@ -14,6 +11,7 @@ import UserProfile from "./pages/User Profile";
 import DashboardLayout from "./layouts/DashboardLayout";
 import MyAccount from "./pages/My Account";
 import Reports from "./pages/Reports";
+import AnalysisReport from "./pages/Analysis Report";
 
 function App() {
   return (
@@ -30,6 +28,7 @@ function App() {
       <Route path="/about" element={<AboutUs />} />
 
       <Route path="/signup/profile" element={<UserProfile />} />
+      <Route path="/report/:reportId" element={<AnalysisReport />} />
 
       <Route path="/auth" element={<Auth />} />
       <Route path="*" element={<NotFound />} />
