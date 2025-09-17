@@ -87,7 +87,7 @@ const ChangePasswordModal = ({ isOpen, onClose, onChangePassword }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <div>
             <label className="text-xs text-neutral-600 font-medium">
-              Old password
+              Current password
               <input
                 {...register("currentPassword")}
                 type={showPassword ? "text" : "password"}

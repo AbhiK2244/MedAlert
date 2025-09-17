@@ -59,9 +59,9 @@ const AuthForm = () => {
         } else {
           dispatch(loginDispatcher(res?.data?.data)); // Dispatch login action to Redux store because user is logged in after signup
           toast.success("User created and logged in successfully.");
+          navigate("/signup/profile?mode=signUpUser");
           // Reset form after successful submission
           reset();
-          navigate("/signup/profile");
         }
       }
     } catch (error) {
