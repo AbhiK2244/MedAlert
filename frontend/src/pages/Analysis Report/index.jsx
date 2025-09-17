@@ -5,7 +5,6 @@ const AnalysisReport = () => {
   const params = useParams();
   const reportId = params?.reportId;
   const { data, isFetching } = useGetReportByIdQuery(reportId);
-  console.log("data", data?.data);
 
   if (isFetching) {
     return (
@@ -25,6 +24,7 @@ const AnalysisReport = () => {
     harmfulIngredients,
     userNotes,
   } = data?.data;
+  
   const formattedDate = new Date(updatedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -92,12 +92,14 @@ const AnalysisReport = () => {
       </section>
 
       {/* Food Suggestions */}
-      {foodSuggestions !== "N/A" && <section className="mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
-          Serving Suggestions
-        </h2>
-        <p className="leading-relaxed text-gray-700">{foodSuggestions}</p>
-      </section>}
+      {foodSuggestions !== "N/A" && (
+        <section className="mb-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
+            Serving Suggestions
+          </h2>
+          <p className="leading-relaxed text-gray-700">{foodSuggestions}</p>
+        </section>
+      )}
 
       {/* Responsive Grid: Stacks on mobile (col-1), two columns on medium screens and up (md:col-2) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -126,26 +128,30 @@ const AnalysisReport = () => {
         </section>
 
         {/* Harmful Ingredients */}
-        {harmfulIngredients?.length > 0 && <section>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
-            <span className="text-red-500 mr-2 text-2xl">⚠️</span> Ingredients
-            to Watch
-          </h2>
-          <div className="space-y-4">
-            {harmfulIngredients.map((item, index) => (
-              <div
-                key={index}
-                className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg"
-              >
-                <h3 className="font-bold text-lg text-red-800">{item.name}</h3>
-                <p className="text-gray-700 my-1">{item.impact}</p>
-                <p className="text-sm text-gray-500">
-                  <strong>Rationale:</strong> {item.rationale}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>}
+        {harmfulIngredients?.length > 0 && (
+          <section>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
+              <span className="text-red-500 mr-2 text-2xl">⚠️</span> Ingredients
+              to Watch
+            </h2>
+            <div className="space-y-4">
+              {harmfulIngredients.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg"
+                >
+                  <h3 className="font-bold text-lg text-red-800">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-700 my-1">{item.impact}</p>
+                  <p className="text-sm text-gray-500">
+                    <strong>Rationale:</strong> {item.rationale}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
 
       {/* User Notes */}
