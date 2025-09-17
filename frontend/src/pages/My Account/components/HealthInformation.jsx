@@ -12,8 +12,8 @@ const HealthInformation = ({ healthData }) => {
     <div className="p-4 shadow-lg border-neutral-300 rounded-lg mt-6">
       <h2 className="text-lg font-medium mb-3">Health</h2>
       <div className="grid grid-cols-2 gap-4">
-        <Field title="Weight" text={`${healthData?.weight} kg`} />
-        <Field title="Height" text={`${healthData?.height} cm`} />
+        <Field title="Weight" text={`${healthData ? healthData?.weight + "kg" : "undefined"}`} />
+        <Field title="Height" text={`${healthData ? healthData?.height + "cm" : "undefined"}`} />
         <Field
           className={`${textStyle[healthData?.bpLevel]}`}
           title="Blood Pressure"

@@ -13,6 +13,7 @@ import MyAccount from "./pages/My Account";
 import Reports from "./pages/Reports";
 import AnalysisReport from "./pages/Analysis Report";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import PublicRoute from "./components/auth/PublicRoute";
 
 function App() {
   return (
@@ -68,7 +69,14 @@ function App() {
         }
       />
 
-      <Route path="/auth" element={<Auth />} />
+      <Route
+        path="/auth"
+        element={
+          <PublicRoute>
+            <Auth />
+          </PublicRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

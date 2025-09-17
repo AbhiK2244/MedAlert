@@ -4,10 +4,11 @@ import pikachu from "/images/pikachu.png";
 import cover from "/images/cover2.png";
 import { FaBrain, FaCamera } from "react-icons/fa";
 import { IoSave } from "react-icons/io5";
-
-
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
+  const { accessToken } = useSelector((state) => state?.auth);
+
   return (
     <div className="w-full">
       <div className="w-full h-[70vh] px-16 py-8 flex">
@@ -20,12 +21,18 @@ const LandingPage = () => {
             advice, and downloadable diet reports powered by AI.
           </p>
 
-          <Link
+          {!accessToken ? <Link
             to="/auth"
-            className="px-4 py-2 rounded-full font-semibold border-2 border-white"
+            className="px-4 py-2 rounded-full font-semibold border-2 border-white hover:bg-white hover:text-primary transition-all duration-300"
           >
             Create Your Health Profile
-          </Link>
+          </Link>:
+          <Link
+            to="/scan"
+            className="px-4 py-2 rounded-full font-semibold border-2 border-white hover:bg-white hover:text-primary transition-all duration-300"
+          >
+            Generate the product report
+          </Link>}
         </div>
 
         <div className="w-[50%] flex items-center justify-center">
