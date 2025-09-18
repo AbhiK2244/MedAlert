@@ -93,3 +93,47 @@ export const getReportById = async (req, res, next) => {
 };
 
 
+// delete the reportById
+export const deleteReportById = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const { reportId } = req.params;
+
+    if (!userId) throw createHttpError(401, "Unauthorized");
+    if (!reportId) throw createHttpError(400, "Report ID is required");
+
+    // Find and delete report only if it belongs to the user
+    const deletedReport = await AnalysisReport.findOneAndDelete({
+      _id: reportId,
+      user: userId,
+    });
+
+    if (!deletedReport) {
+      throw createHttpError(404, "Report not found or not authorized to delete");
+    }
+
+    res.send(createResponse(deletedReport, "Report deleted successfully."));
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const deleteAllReports = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    if (!userId) throw createHttpError(401, "Unauthorized");
+
+    // Delete all reports belonging to the user
+    const result = await AnalysisReport.deleteMany({ user: userId });
+
+    if (result.deletedCount === 0) {
+      throw createHttpError(404, "No reports found to delete");
+    }
+
+    res.send(createResponse(null, `${result.deletedCount} report(s) deleted successfully.`));
+  } catch (error) {
+    next(error);
+  }
+};
+
