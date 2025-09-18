@@ -36,7 +36,7 @@ ${userNotes || "N/A"}
 HEALTH PROFILE:
 ${JSON.stringify(healthSnapshot ?? {}, null, 2)}
 Make sure you are suggesting the personalized result with reference to the health profile of user and in summary mention a little about their health profile in personalized manner. 
-Most important: Do not miss summary in the response.
+Most important: Do not miss summary in the response. foodsuggestions in json response should always be string type only.
 `;
 
   try {

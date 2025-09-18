@@ -4,6 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import ProgressBar from "./ProgressBar";
 import DailyWellnessGoal from "./DailyWellnessGoal";
 import ProfileCard from "./ProfileCard";
+import ScrollToggle from "../../../components/Utility/ScrollToggle.Jsx";
 
 const Sidebar = ({ isOpen, setIsOpen, location }) => {
   return (
@@ -14,9 +15,11 @@ const Sidebar = ({ isOpen, setIsOpen, location }) => {
           className="lg:hidden fixed top-6 left-0 z-20"
           onClick={() => setIsOpen(true)}
         >
-          <div className="w-8 h-7 flex justify-center items-center cursor-pointer transition duration-300 text-xl">
-            <GiHamburgerMenu />
-          </div>
+          <ScrollToggle>
+            <div className="w-8 h-7 flex justify-center text-neutral-600 items-center cursor-pointer transition duration-300 text-xl">
+              <GiHamburgerMenu />
+            </div>
+          </ScrollToggle>
         </div>
       )}
 

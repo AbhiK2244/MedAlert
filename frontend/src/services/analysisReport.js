@@ -24,9 +24,17 @@ export const analysisReportApi = createApi({
         body: reportData,
       }),
     }),
+    getMyReports: builder.query({
+      query: () => "/",
+    }),
+    getReportById: builder.query({
+      query: (reportId) => `/${reportId}`,
+    }),
   }),
 });
 
 export const {
-    useAnalysisReportMutation,
+  useAnalysisReportMutation,
+  useGetMyReportsQuery,
+  useGetReportByIdQuery,
 } = analysisReportApi;

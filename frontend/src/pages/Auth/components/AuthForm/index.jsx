@@ -8,9 +8,11 @@ import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login as loginDispatcher } from "../../../../redux/reducers/auth.reducer";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AuthForm = () => {
   const [authMode, setAuthMode] = useState("login");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -57,9 +59,9 @@ const AuthForm = () => {
         } else {
           dispatch(loginDispatcher(res?.data?.data)); // Dispatch login action to Redux store because user is logged in after signup
           toast.success("User created and logged in successfully.");
+          navigate("/signup/profile?mode=signUpUser");
           // Reset form after successful submission
           reset();
-          navigate("/signup/profile");
         }
       }
     } catch (error) {
@@ -112,12 +114,21 @@ const AuthForm = () => {
         </div>
 
         <div className="w-full mb-4">
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-primary"
-          />
+          <div className="relative">
+            <input
+              {...register("password")}
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-primary"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
           {errors?.password && (
             <p className="text-red-500 text-xs">{errors?.password.message}</p>
           )}
@@ -140,8 +151,7 @@ const AuthForm = () => {
             type="submit"
             disabled={isSignupLoading}
             className={`w-full h-10 p-2 transition-colors duration-300 cursor-pointer rounded-md flex items-center justify-center disabled:bg-neutral-400 disabled:cursor-not-allowed ${
-              !isSignupLoading
-                && "bg-primary text-white hover:bg-primary-hover"
+              !isSignupLoading && "bg-primary text-white hover:bg-primary-hover"
             }`}
           >
             {isSignupLoading ? <Spinner /> : "Sign Up"}

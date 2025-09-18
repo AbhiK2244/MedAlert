@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { userProfileSchema } from "./Schema/userProfile.js";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateProfileMutation } from "../../services/healthProfile.js";
+import {
+  useCreateProfileMutation,
+  useGetProfilesQuery,
+} from "../../services/healthProfile.js";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner.jsx";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [createProfile, { isLoading: isCreateProfileLoading }] =
     useCreateProfileMutation();
+  const { data: healthProfiles } = useGetProfilesQuery();
+  const location = useLocation();
+  const query = location.search.split("=")[1]; // extract the value. eg. ?newUser=true then query = true
+
+  useEffect(() => {
+    //if the user already have healthProfile then they do not need to access this page
+    if (query !== "signUpUser") {
+      if (healthProfiles?.data?.length > 0) navigate("/");
+
+      // if the user is new having no healthProfile then only they will be allowed on this page. They can access this page through their account page only.
+      if (healthProfiles?.data?.length === 0 && query !== "newUser")
+        navigate("/");
+    }
+  }, [healthProfiles]);
 
   const {
     register,
@@ -44,9 +61,14 @@ const UserProfile = () => {
 
   return (
     <div className="container mx-auto p-4 transition-all duration-300">
-      <h1 className="text-3xl font-bold mb-4 text-primary">
+      <h1 className="text-3xl text-center font-bold mb-4 text-primary">
         Complete Your Profile
       </h1>
+      {query === "signUpUser" && <div className="text-xs font-medium px-10 flex justify-end">
+        <span onClick={() => navigate("/scan")} className="text-primary hover:text-primary-hover transition duration-300 cursor-pointer">
+          Skip
+        </span>
+      </div>}
       <div className="w-full px-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
           {/* personal details */}
