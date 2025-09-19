@@ -5,8 +5,6 @@ import NotFound from "./pages/Not Found";
 import LandingPageLayout from "./layouts/LandingPageLayout";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
-import AboutUs from "./pages/About Us/AboutUs";
-import ContactUs from "./pages/contact us/ContactUs";
 import UserProfile from "./pages/User Profile";
 import DashboardLayout from "./layouts/DashboardLayout";
 import MyAccount from "./pages/My Account";
@@ -14,6 +12,8 @@ import Reports from "./pages/Reports";
 import AnalysisReport from "./pages/Analysis Report";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import PublicRoute from "./components/auth/PublicRoute";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   return (
