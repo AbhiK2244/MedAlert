@@ -87,7 +87,7 @@ const Reports = () => {
           <div key={report._id} className="relative">
             <Link
               to={`/report/${report._id}`}
-              className="flex flex-col gap-3 p-4 border border-neutral-300 shadow-xl rounded-xl hover:scale-105 transition-all duration-300"
+              className="flex flex-col gap-3 p-4 border border-neutral-300 shadow-xl rounded-xl hover:scale-105 transition-all duration-300 h-58"
             >
               <h3 className="text-xl font-medium line-clamp-1">
                 {report?.ocrResult?.productName ||

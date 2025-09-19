@@ -90,7 +90,6 @@ Most important: Do not miss summary in the response. foodsuggestions in json res
       };
     }
 
-    console.log("parsed result:", parsed)
 
     return {
       ...parsed,
