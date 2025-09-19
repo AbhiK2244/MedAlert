@@ -30,6 +30,18 @@ export const analysisReportApi = createApi({
     getReportById: builder.query({
       query: (reportId) => `/${reportId}`,
     }),
+    deleteReportById: builder.mutation({
+      query: (reportId) => ({
+        url: `/${reportId}`,
+        method: "DELETE",
+      }),
+    }),
+    deleteAllReports: builder.mutation({
+      query: () => ({
+        url: `/`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +49,6 @@ export const {
   useAnalysisReportMutation,
   useGetMyReportsQuery,
   useGetReportByIdQuery,
+  useDeleteReportByIdMutation,
+  useDeleteAllReportsMutation,
 } = analysisReportApi;

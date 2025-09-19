@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #4F6FFE;
-  --color-primary-hover: #1D3DDC;
-  --color-primary-light: #8094FF;
+  --color-primary: #4f6ffe;
+  --color-primary-hover: #1d3ddc;
+  --color-primary-light: #8094ff;
 
   --animate-loading: loading 3s ease-in-out infinite;
-  
+
   @keyframes loading {
     0% {
       transform: translateX(0%);
@@ -20,13 +20,17 @@
   }
 }
 
-@layer utilities{
+@layer utilities {
   .custom-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 
-.custom-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .primary-gradient {
+    @apply bg-gradient-to-br from-neutral-900 via-[#1f2a99] to-[#4F6FFE];
+  }
 }

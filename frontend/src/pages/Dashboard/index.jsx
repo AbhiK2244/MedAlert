@@ -42,7 +42,7 @@ const Dashboard = () => {
       //   setOcrResults(response.data);
       return response?.data;
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
       // if (error.response && error.response.status === 503) {
       //   console.log(
       //     "Server is waking up (503 error). Retrying in 10 seconds..."
@@ -77,14 +77,16 @@ const Dashboard = () => {
       };
       console.log("report data", reportData);
       const response = await analysisReport(reportData);
-      console.log("Report generated successfully:", response?.data?.data);
-      toast.success("Report generated successfully.");
-      const id = response?.data?.data?._id;
-      navigate(`/report/${id}`);
+      if (response?.error) {
+        toast.error(response?.error.data.message || "Something went wrong!");
+      } else {
+        console.log("Report generated successfully:", response);
+        toast.success("Report generated successfully.");
+        const id = response?.data?.data?._id;
+        navigate(`/report/${id}`);
+      }
     } catch (error) {
-      toast.error(
-        "Something went wrong. Please try again!"
-      );
+      toast.error("Something went wrong. Please try again!");
     }
   };
 

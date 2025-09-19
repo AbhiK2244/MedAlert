@@ -14,6 +14,11 @@ export const signup = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     const userEmail = await User.findOne({ email });
+    // const userName = await User.findOne({ name });
+
+    // if (userName) {
+    //   throw createHttpError(409, "Username already exists. Please try another.");
+    // }
 
     if (userEmail) {
       throw createHttpError(409, "User already exists. Please login instead.");
@@ -53,6 +58,7 @@ export const signup = async (req, res, next) => {
     next(error);
   }
 };
+
 export const signin = async (req, res, next) => {
   try {
     const { email, password } = req.body;

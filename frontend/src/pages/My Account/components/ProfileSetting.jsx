@@ -49,7 +49,7 @@ const ProfileSetting = ({ user, healthData, setOpen }) => {
             Account settings
           </h4>
           <div>
-            <button className="text-[11px] md:text-xs font-medium text-primary hover:text-primary-hover hover:underline transform duration-300 cursor-pointer">
+            <button type="button" onClick={() => navigate("/signup/profile?mode=edit")} className="text-[11px] md:text-xs font-medium text-primary hover:text-primary-hover hover:underline transform duration-300 cursor-pointer">
               Edit profile
             </button>
           </div>
