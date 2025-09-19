@@ -25,8 +25,8 @@ export const healthProfileApi = createApi({
       }),
     }),
     updateProfile: builder.mutation({
-      query: ({ id, ...profileData }) => ({
-        url: `/${id}`,
+      query: ({ healthProfileId, ...profileData }) => ({
+        url: `/${healthProfileId}`,
         method: "PUT",
         body: profileData,
       }),

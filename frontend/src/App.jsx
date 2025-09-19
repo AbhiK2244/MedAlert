@@ -20,6 +20,8 @@ function App() {
     <Routes>
       <Route element={<LandingPageLayout />}>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/about" element={<AboutUs />} />
+      <Route path="/contact" element={<ContactUs />} />
       </Route>
       <Route element={<DashboardLayout />}>
         <Route
@@ -49,8 +51,6 @@ function App() {
           }
         />
       </Route>
-      <Route path="/contact" element={<ContactUs />} />
-      <Route path="/about" element={<AboutUs />} />
 
       <Route
         path="/signup/profile"

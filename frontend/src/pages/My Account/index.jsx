@@ -35,9 +35,9 @@ const MyAccount = () => {
         onClose={() => setOpen(false)}
         onChangePassword={handleChangePassword}
       />
-      <ProfileSetting setOpen={setOpen} user={user} healthData={healthData} />
-      <PersonalInformation user={user} healthData={healthData} />
-      <HealthInformation healthData={healthData} />
+      <ProfileSetting isFetching={isFetching} setOpen={setOpen} user={user} healthData={healthData} />
+      <PersonalInformation isFetching={isFetching} user={user} healthData={healthData} />
+      <HealthInformation isFetching={isFetching} healthData={healthData} />
     </div>
   );
 };
