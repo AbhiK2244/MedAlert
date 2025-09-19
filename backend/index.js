@@ -6,6 +6,7 @@ import connectDB from './services/database.service.js';
 import authRoutes from './routes/auth.route.js';
 import healthProfileRoutes from './routes/healthProfile.route.js';
 import analysisReportRoutes from './routes/analysisReport.route.js';
+import ocrRoutes from './routes/ocr.route.js';
 import errorHandler from './middleware/errorHandler.middleware.js';
 import cors from 'cors';
 
@@ -30,6 +31,7 @@ app.use(cors({
 app.use('/api/user', authRoutes); 
 app.use('/api/health-profiles', healthProfileRoutes);
 app.use('/api/analysis-reports', analysisReportRoutes);
+app.use('/api/ocr', ocrRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

@@ -3,11 +3,11 @@ import { HiOutlineUpload } from "react-icons/hi";
 import { BsCameraFill } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
 import { toast } from "react-hot-toast";
-import axios from "axios";
+// import axios from "axios";
 import { useAnalysisReportMutation } from "../../services/analysisReport";
 import { useNavigate } from "react-router-dom";
 import { PiPlusBold } from "react-icons/pi";
-import { performOcrRequest } from "../../services/ocrScan";
+import { usePerformOCRMutation } from "../../services/performOCR";
 
 const Dashboard = () => {
   const galleryInputRef = useRef(null);
@@ -15,20 +15,21 @@ const Dashboard = () => {
   const filesRef = useRef([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [ocrResults, setOcrResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [userNotes, setUserNotes] = useState("");
   const [isNoteOpen, setIsNoteOpen] = useState(false);
   const navigate = useNavigate();
 
   const [analysisReport, { isLoading: isReportLoading }] =
     useAnalysisReportMutation();
+  
+  const [performOCR, {isLoading}] = usePerformOCRMutation();
 
   const handleScan = async () => {
     if (filesRef.current.length === 0) {
       toast.error("Please upload an image first.");
       return;
     }
-    setIsLoading(true);
+    // setIsLoading(true);
     setOcrResults(null);
 
     const formData = new FormData();
@@ -37,34 +38,16 @@ const Dashboard = () => {
     });
 
     try {
-      const response = await performOcrRequest(formData);
+      const response = await performOCR(formData);
       console.log("Result from ocr: ", response);
-      //   setOcrResults(response.data);
-      return response?.data;
+      if (response?.error) {
+        toast.error(response?.error.data.message || "Something went wrong!");
+      } else {
+        console.log("Text extracted successfully.");
+        return response?.data?.data;
+      }
     } catch (error) {
       throw new Error(error);
-      // if (error.response && error.response.status === 503) {
-      //   console.log(
-      //     "Server is waking up (503 error). Retrying in 10 seconds..."
-      //   );
-      //   await new Promise((resolve) => setTimeout(resolve, 10000));
-      //   try {
-      //     const retryResponse = await performOcrRequest(formData);
-      //     setOcrResults(retryResponse.data);
-      //   } catch (retryError) {
-      //     console.error("Error during retry OCR process:", retryError);
-      //     setOcrResults({
-      //       error: "The server is busy. Please try again in a minute.",
-      //     });
-      //   }
-      // } else {
-      //   console.error("Error during OCR process:", error);
-      //   setOcrResults({
-      //     error: "Could not scan the image(s). Please try again.",
-      //   });
-      // }
-    } finally {
-      setIsLoading(false);
     }
   };
 

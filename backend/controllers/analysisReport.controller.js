@@ -9,7 +9,6 @@ export const generateAnalysisReport = async (req, res, next) => {
     const userId = req.userId; // from auth middleware
     if (!userId) throw createHttpError(401, "Unauthorized");
 
-    console.log("Received analysis report request:", req.body);
     const { ocrResult, userNotes } = req.body;
     if (!ocrResult?.ingredients?.length) {
       throw createHttpError(
@@ -22,7 +21,6 @@ export const generateAnalysisReport = async (req, res, next) => {
     const health = await HealthProfile.findOne({ user: userId }).sort({
       createdAt: -1,
     });
-    console.log("Health of the user", health);
     if (!health) throw createHttpError(400, "Health profile is required");
 
     const llmResult = await runLLMAnalysis({

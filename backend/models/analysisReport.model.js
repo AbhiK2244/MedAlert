@@ -14,6 +14,10 @@ const analysisReportSchema = new Schema({
     productName: String,
     description: String,
     ingredients: [String],
+    confidence: Number,
+    descriptionInferred: Boolean,
+    productNameInferred: Boolean,
+    sources: [String],
   },
 
   userNotes: { type: String },
