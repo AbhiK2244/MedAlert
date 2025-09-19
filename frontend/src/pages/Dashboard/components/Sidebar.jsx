@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
-import ProgressBar from "./ProgressBar";
 import DailyWellnessGoal from "./DailyWellnessGoal";
 import ProfileCard from "./ProfileCard";
-import ScrollToggle from "../../../components/Utility/ScrollToggle.Jsx";
+import ScrollToggle from "../../../components/Utility/ScrollToggle";
 
 const Sidebar = ({ isOpen, setIsOpen, location }) => {
   return (
