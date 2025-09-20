@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaBookMedical } from "react-icons/fa6";
 import { TbTextScan2 } from "react-icons/tb";
+import { IoHome } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../services/auth";
 import toast from "react-hot-toast";
@@ -12,6 +13,7 @@ const links = [
   { url: "/scan", label: "Scan", icon: <TbTextScan2 /> },
   { url: "/my-account", label: "My Account", icon: <FaCircleUser /> },
   { url: "/reports", label: "Reports", icon: <FaBookMedical /> },
+  { url: "/", label: "Home", icon: <IoHome /> },
 ];
 
 const ProfileCard = ({ location, setIsOpen }) => {
@@ -71,24 +73,6 @@ const ProfileCard = ({ location, setIsOpen }) => {
           </Link>
         ))}
       </div>
-
-      {/* <div className="mt-6 p-3 rounded-lg bg-yellow-50">
-              <p className="text-yellow-600 font-semibold text-sm">
-                Health Status
-              </p>
-              <p className="text-gray-700 text-sm">Good health, keep it up</p>
-            </div> */}
-      {/* <div className="mt-4">
-              <p className="text-sm text-gray-500">Medical Conditions</p>
-              <div className="flex gap-2 mt-2">
-                <span className="bg-gray-100 px-3 py-1 rounded-lg text-xs text-gray-500">
-                  Type 2 Diabetes
-                </span>
-                <span className="bg-gray-100 px-3 py-1 rounded-lg text-xs text-gray-500">
-                  Hypertension
-                </span>
-              </div>
-            </div> */}
     </div>
   );
 };
