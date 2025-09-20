@@ -25,7 +25,7 @@ const DashboardLayout = () => {
     <div className="flex flex-col min-h-screen w-full custom-scrollbar">
         <main className="flex-grow flex">
           {/* Left Component Admin Sidebar */}
-          <div className={`h-full custom-scrollbar`}>
+          <div className={`h-screen custom-scrollbar`}>
             <Sidebar
               location={location}
               isOpen={isOpen}
@@ -34,7 +34,7 @@ const DashboardLayout = () => {
           </div>
 
           {/* Right Component Admin Panel */}
-          <div className="h-full overflow-y-auto w-full">
+          <div className="h-screen overflow-y-auto w-full">
             <Outlet />
           </div>
         </main>
