@@ -132,7 +132,7 @@ const ChangePasswordModal = ({ isOpen, onClose, onChangePassword }) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 w-1/2 rounded-md bg-primary text-white hover:bg-primary-hover disabled:bg-neutral-300 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center transition duration-300"
+              className="px-4 py-2 w-1/2 rounded-md bg-primary text-white hover:bg-primary-hover disabled:bg-neutral-300 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center transition duration-300 h-10"
             >
               {loading ? <Spinner /> : "Save"}
             </button>
@@ -144,32 +144,3 @@ const ChangePasswordModal = ({ isOpen, onClose, onChangePassword }) => {
 };
 
 export default ChangePasswordModal;
-
-/*
-Usage example (in your parent component):
-
-import React, { useState } from 'react';
-import ChangePasswordModal from './ChangePasswordModal';
-
-const Parent = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleChangePassword = async ({ oldPassword, newPassword }) => {
-    // call your API to change password, e.g.:
-    // await api.post('/change-password', { currentPassword: oldPassword, newPassword });
-    // throw new Error('Invalid current password') when necessary.
-  };
-
-  return (
-    <div>
-      <button onClick={() => setOpen(true)}>Open change password</button>
-      <ChangePasswordModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onChangePassword={handleChangePassword}
-      />
-    </div>
-  );
-};
-
-*/
