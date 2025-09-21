@@ -8,6 +8,7 @@ import { useAnalysisReportMutation } from "../../services/analysisReport";
 import { useNavigate } from "react-router-dom";
 import { PiPlusBold } from "react-icons/pi";
 import { usePerformOCRMutation } from "../../services/performOCR";
+import Spinner from "../../components/Spinner";
 
 const Dashboard = () => {
   const galleryInputRef = useRef(null);
@@ -21,8 +22,8 @@ const Dashboard = () => {
 
   const [analysisReport, { isLoading: isReportLoading }] =
     useAnalysisReportMutation();
-  
-  const [performOCR, {isLoading}] = usePerformOCRMutation();
+
+  const [performOCR, { isLoading }] = usePerformOCRMutation();
 
   const handleScan = async () => {
     if (filesRef.current.length === 0) {
@@ -249,11 +250,9 @@ const Dashboard = () => {
         <button
           onClick={handleGenerateReport}
           disabled={isLoading || isReportLoading || imagePreviews?.length === 0}
-          className="border border-gray-200 py-3 rounded-xl shadow hover:bg-primary hover:text-white cursor-pointer transition text-gray-700 font-medium disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:text-black"
+          className="flex justify-center items-center border border-gray-200 py-3 rounded-xl disabled:shadow disabled:bg-neutral-200 shadow-lg hover:bg-primary hover:text-white cursor-pointer transition-all duration-300 text-gray-700 font-medium disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:text-black h-11"
         >
-          {isLoading || isReportLoading
-            ? "Generating Report..."
-            : "Generate Report"}
+          {isLoading || isReportLoading ? <Spinner /> : "Generate Report"}
         </button>
       </div>
     </div>
