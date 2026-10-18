@@ -41,7 +41,7 @@ Most important: Do not miss summary in the response. foodsuggestions in json res
 `;
 
   try {
-    const modelId = "gemini-2.0-flash"; // ✅ Updated to supported model
+    const modelId = "gemini-2.5-flash"; // ✅ Updated to supported model
     const result = await genAI.models.generateContent({
       model: modelId,
       contents: [
