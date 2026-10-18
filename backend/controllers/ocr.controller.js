@@ -45,16 +45,18 @@ export const handleOcr = async (req, res, next) => {
     }
 
     if (!aggregatedText.trim()) {
-      throw createHttpError(404, "Could not extract any text from the image(s).");
+      throw createHttpError(404, "Could not extract any text from the image.");
     }
 
     const structured = await extractStructuredData(aggregatedText);
 
+    console.log("structured ocr output: ", structured, "\n\n")
+
     if (!structured) {
-      throw createHttpError(404, "Could not extract any data from the image(s).");
+      throw createHttpError(404, "Could not extract any data from the image.");
     }
     if (structured.error) {
-      return res.status(422).send(createResponse(structured, "Could not generate report. Please try later."));
+      return res.status(422).send(createResponse(structured, "Model in high demand. Please try again later."));
     }
 
     return res.status(200).send(createResponse(structured, "Structured data extracted successfully."));

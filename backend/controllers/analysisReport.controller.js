@@ -10,10 +10,17 @@ export const generateAnalysisReport = async (req, res, next) => {
     if (!userId) throw createHttpError(401, "Unauthorized");
 
     const { ocrResult, userNotes } = req.body;
-    if (!ocrResult?.ingredients?.length) {
+    if (!ocrResult) {
+      throw createHttpError(
+        404,
+        "Unable to read the image. Please try another image."
+      );
+    }
+
+    if (!ocrResult?.ingredients?.length && !ocrResult?.nutritions?.length) {
       throw createHttpError(
         400,
-        "Please provide the clear image with ingredients."
+        "Unable to extract ingredients and nutritions. Please try with another image."
       );
     }
 

@@ -7,6 +7,17 @@ const ingredientSchema = new Schema({
   quantityLimit: { type: String },
 }, { _id: false });
 
+const nutrientSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    observedAmount: { type: String },
+    measurementBasis: { type: String },
+    rationale: { type: String }, // why the nutrient may be beneficial or concerning
+    quantityLimit: { type: String },
+  },
+  { _id: false }
+);
+
 const analysisReportSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 
@@ -14,6 +25,7 @@ const analysisReportSchema = new Schema({
     productName: String,
     description: String,
     ingredients: [String],
+    nutritions: [String],
     confidence: Number,
     descriptionInferred: Boolean,
     productNameInferred: Boolean,
@@ -24,6 +36,8 @@ const analysisReportSchema = new Schema({
 
   usefulIngredients: [ingredientSchema],
   harmfulIngredients: [ingredientSchema],
+  usefulNutrients: [nutrientSchema],
+  concerningNutrients: [nutrientSchema],
   consumptionGuidelines: { type: String },
   foodSuggestions: { type: String },
   summary: { type: String, required: false },

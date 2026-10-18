@@ -14,13 +14,15 @@ const AnalysisReport = () => {
     );
   }
   const {
-    ocrResult: { productName, description, ingredients },
+    ocrResult: { productName, description, ingredients, nutritions },
     updatedAt,
     summary,
     ocrResult,
     consumptionGuidelines,
     foodSuggestions,
     usefulIngredients,
+    usefulNutrients,
+    concerningNutrients,
     harmfulIngredients,
     userNotes,
   } = data?.data;
@@ -62,21 +64,42 @@ const AnalysisReport = () => {
         )}
 
         {/* Key Ingredients */}
-        <section className="mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
-            Key Ingredients Detected
-          </h2>
-          <div className="flex flex-wrap gap-2 sm:gap-3">
-            {ocrResult.ingredients.map((ingredient, index) => (
-              <span
-                key={index}
-                className="bg-teal-50 text-teal-800 py-2 px-4 rounded-full font-medium text-sm"
-              >
-                {ingredient}
-              </span>
-            ))}
-          </div>
-        </section>
+        {ocrResult.ingredients?.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
+              Key Ingredients Detected
+            </h2>
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {ocrResult.ingredients.map((ingredient, index) => (
+                <span
+                  key={index}
+                  className="bg-teal-50 text-teal-800 py-2 px-4 rounded-full font-medium text-sm"
+                >
+                  {ingredient}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Key Nutritions */}
+        {ocrResult.nutritions?.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
+              Nutritions Detected
+            </h2>
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {ocrResult.nutritions.map((nutrition, index) => (
+                <span
+                  key={index}
+                  className="bg-teal-50 text-teal-800 py-2 px-4 rounded-full font-medium text-sm"
+                >
+                  {nutrition}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Consumption Guidelines */}
         <section className="mb-8">
@@ -100,15 +123,16 @@ const AnalysisReport = () => {
           </section>
         )}
 
-        {/* Responsive Grid: Stacks on mobile (col-1), two columns on medium screens and up (md:col-2) */}
+        {/* Responsive Grid: Stacks on mobile, two columns on medium screens and up */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Useful Ingredients */}
           {usefulIngredients?.length > 0 && (
             <section>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
-                <span className="text-green-500 mr-2 text-2xl">✅</span>{" "}
+                <span className="text-green-500 mr-2 text-2xl">✅</span>
                 Beneficial Ingredients
               </h2>
+
               <div className="space-y-4">
                 {usefulIngredients.map((item, index) => (
                   <div
@@ -118,7 +142,9 @@ const AnalysisReport = () => {
                     <h3 className="font-bold text-lg text-green-800">
                       {item.name}
                     </h3>
-                    <p className="text-gray-700 my-1">{item.impact}</p>
+
+                    <p className="text-gray-700 my-1">{item.rationale}</p>
+
                     <p className="text-sm text-gray-500">
                       <strong>Limit:</strong> {item.quantityLimit}
                     </p>
@@ -132,9 +158,10 @@ const AnalysisReport = () => {
           {harmfulIngredients?.length > 0 && (
             <section>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
-                <span className="text-red-500 mr-2 text-2xl">⚠️</span>{" "}
+                <span className="text-red-500 mr-2 text-2xl">⚠️</span>
                 Ingredients to Watch
               </h2>
+
               <div className="space-y-4">
                 {harmfulIngredients.map((item, index) => (
                   <div
@@ -144,9 +171,85 @@ const AnalysisReport = () => {
                     <h3 className="font-bold text-lg text-red-800">
                       {item.name}
                     </h3>
-                    <p className="text-gray-700 my-1">{item.impact}</p>
+
+                    <p className="text-gray-700 my-1">{item.rationale}</p>
+
                     <p className="text-sm text-gray-500">
-                      <strong>Rationale:</strong> {item.rationale}
+                      <strong>Limit:</strong> {item.quantityLimit}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Useful Nutrients */}
+          {usefulNutrients?.length > 0 && (
+            <section>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
+                <span className="text-green-500 mr-2 text-2xl">🥗</span>
+                Useful Nutrients
+              </h2>
+
+              <div className="space-y-4">
+                {usefulNutrients.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg"
+                  >
+                    <h3 className="font-bold text-lg text-green-800">
+                      {item.name}
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      <strong>Amount:</strong> {item.observedAmount}
+                    </p>
+
+                    <p className="text-sm text-gray-600">
+                      <strong>Basis:</strong> {item.measurementBasis}
+                    </p>
+
+                    <p className="text-gray-700 my-2">{item.rationale}</p>
+
+                    <p className="text-sm text-gray-500">
+                      <strong>Limit:</strong> {item.quantityLimit}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Concerning Nutrients */}
+          {concerningNutrients?.length > 0 && (
+            <section>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 flex items-center">
+                <span className="text-orange-500 mr-2 text-2xl">⚠️</span>
+                Nutrients to Watch
+              </h2>
+
+              <div className="space-y-4">
+                {concerningNutrients.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg"
+                  >
+                    <h3 className="font-bold text-lg text-orange-800">
+                      {item.name}
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      <strong>Amount:</strong> {item.observedAmount}
+                    </p>
+
+                    <p className="text-sm text-gray-600">
+                      <strong>Basis:</strong> {item.measurementBasis}
+                    </p>
+
+                    <p className="text-gray-700 my-2">{item.rationale}</p>
+
+                    <p className="text-sm text-gray-500">
+                      <strong>Limit:</strong> {item.quantityLimit}
                     </p>
                   </div>
                 ))}
@@ -173,7 +276,9 @@ const AnalysisReport = () => {
             Note: This report is generated by AI and is meant for general
             informational purpose
           </p>
-          <p className="mt-2">© {new Date().getFullYear()} MedAlert. All rights reserved.</p>
+          <p className="mt-2">
+            © {new Date().getFullYear()} MedAlert. All rights reserved.
+          </p>
         </footer>
       </div>
     </div>

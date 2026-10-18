@@ -55,19 +55,20 @@ const Dashboard = () => {
   const handleGenerateReport = async () => {
     try {
       const result = await handleScan();
-      const reportData = {
-        userNotes,
-        ocrResult: result,
-      };
-      console.log("report data", reportData);
-      const response = await analysisReport(reportData);
-      if (response?.error) {
-        toast.error(response?.error.data.message || "Something went wrong!");
-      } else {
-        console.log("Report generated successfully:", response);
-        toast.success("Report generated successfully.");
-        const id = response?.data?.data?._id;
-        navigate(`/report/${id}`);
+      if (result) {
+        const reportData = {
+          userNotes,
+          ocrResult: result,
+        };
+        const response = await analysisReport(reportData);
+        if (response?.error) {
+          toast.error(response?.error.data.message || "Something went wrong!");
+        } else {
+          console.log("Report generated successfully:", response);
+          toast.success("Report generated successfully.");
+          const id = response?.data?.data?._id;
+          navigate(`/report/${id}`);
+        }
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again!");
@@ -84,10 +85,10 @@ const Dashboard = () => {
   };
   const handleRemoveImage = (indexToRemove) => {
     filesRef.current = filesRef.current.filter(
-      (_, index) => index !== indexToRemove
+      (_, index) => index !== indexToRemove,
     );
     setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((_, index) => index !== indexToRemove)
+      prevPreviews.filter((_, index) => index !== indexToRemove),
     );
   };
   const clearImages = () => {
