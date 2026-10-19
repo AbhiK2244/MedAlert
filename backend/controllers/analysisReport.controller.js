@@ -3,6 +3,7 @@ import { createResponse } from "../services/createResponse.service.js";
 import AnalysisReport from "../models/analysisReport.model.js";
 import HealthProfile from "../models/healthProfile.model.js";
 import { runLLMAnalysis } from "../services/llm.service.js";
+import mongoose from "mongoose";
 
 export const generateAnalysisReport = async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ export const generateAnalysisReport = async (req, res, next) => {
     }
 
     // get latest health profile snapshot
-    const health = await HealthProfile.findOne({ user: userId }).sort({
+    const health = await HealthProfile.findOne({ user: new mongoose.Types.ObjectId(userId) }).sort({
       createdAt: -1,
     });
     if (!health) throw createHttpError(400, "Health profile is required");
@@ -62,7 +63,7 @@ export const getMyReports = async (req, res, next) => {
     const userId = req.userId;
     if (!userId) throw createHttpError(401, "Unauthorized");
 
-    const reports = await AnalysisReport.find({ user: userId }).sort({
+    const reports = await AnalysisReport.find({ user: new mongoose.Types.ObjectId(userId) }).sort({
       createdAt: -1,
     });
 
@@ -84,7 +85,7 @@ export const getReportById = async (req, res, next) => {
     // Find report by ID and also check ownership
     const report = await AnalysisReport.findOne({
       _id: reportId,
-      user: userId,
+      user: new mongoose.Types.ObjectId(userId),
     });
 
     if (!report) {
@@ -110,7 +111,7 @@ export const deleteReportById = async (req, res, next) => {
     // Find and delete report only if it belongs to the user
     const deletedReport = await AnalysisReport.findOneAndDelete({
       _id: reportId,
-      user: userId,
+      user: new mongoose.Types.ObjectId(userId),
     });
 
     if (!deletedReport) {
@@ -130,7 +131,7 @@ export const deleteAllReports = async (req, res, next) => {
     if (!userId) throw createHttpError(401, "Unauthorized");
 
     // Delete all reports belonging to the user
-    const result = await AnalysisReport.deleteMany({ user: userId });
+    const result = await AnalysisReport.deleteMany({ user: new mongoose.Types.ObjectId(userId) });
 
     if (result.deletedCount === 0) {
       throw createHttpError(404, "No reports found to delete");
