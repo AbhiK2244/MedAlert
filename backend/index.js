@@ -11,9 +11,7 @@ import errorHandler from './middleware/errorHandler.middleware.js';
 import cors from 'cors';
 
 dotenv.config();
-const app = express();
-connectDB();
- 
+const app = express(); 
 
 const PORT = process.env.PORT || 4000;
 
@@ -40,6 +38,18 @@ app.get('/', (req, res) => {
   res.json({status: 'success', message: 'Backend is running!' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

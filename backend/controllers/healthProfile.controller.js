@@ -5,25 +5,67 @@ import { createResponse } from "../services/createResponse.service.js";
 import createHttpError from "http-errors";
 
 
+
 export const createHealthProfile = async (req, res, next) => {
   try {
-    const userId = req.userId; // Extracted from auth middleware
-    if (!userId) throw createHttpError(401, "Unauthorized"); // If user not logged in
+    const userId = req.userId;
 
-    // Create new profile linked to the user
+    if (!userId) {
+      throw createHttpError(401, "Unauthorized");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw createHttpError(400, "Invalid user ID");
+    }
+
+    const userExists = await User.exists({ _id: userId });
+
+    if (!userExists) {
+      throw createHttpError(404, "User not found");
+    }
+
     const profile = await HealthProfile.create({
-      user: userId,
-      ...req.body
+      ...req.body,
+      user: new mongoose.Types.ObjectId(userId),
     });
 
-    // Push the new profile reference into the user's document
-    await User.findByIdAndUpdate(userId, { $push: { healthProfiles: profile._id } });
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { healthProfiles: profile._id } }
+    );
 
-    res.status(201).send(createResponse(profile, "Health profile created successfully"));
+    res
+      .status(201)
+      .send(
+        createResponse(
+          profile,
+          "Health profile created successfully"
+        )
+      );
   } catch (error) {
     next(error);
   }
 };
+
+// export const createHealthProfile = async (req, res, next) => {
+//   try {
+//     const userId = req.userId; // Extracted from auth middleware
+//     if (!userId) throw createHttpError(401, "Unauthorized"); // If user not logged in
+
+//     // Create new profile linked to the user
+//     const profile = await HealthProfile.create({
+//       user: new mongoose.Types.ObjectId(userId),
+//       ...req.body
+//     });
+
+//     // Push the new profile reference into the user's document
+//     await User.findByIdAndUpdate(userId, { $push: { healthProfiles: profile._id } });
+
+//     res.status(201).send(createResponse(profile, "Health profile created successfully"));
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 export const updateHealthProfile = async (req, res, next) => {
   try {
