@@ -88,10 +88,7 @@ const Footer = () => {
 
       {/* Bottom Section */}
       <div className="border-t border-neutral-800 py-6 text-center text-neutral-400 text-sm">
-        <p>© 2025 MedAlert. All rights reserved.</p>
-        <p className="mt-2">
-          Made by <span className="font-semibold">Aarya • Samrat • Rohit • Sweekar • Shubhas • Abhishek</span>
-        </p>
+        <p>© {new Date().getFullYear} MedAlert. All rights reserved.</p>
       </div>
     </footer>
   );
